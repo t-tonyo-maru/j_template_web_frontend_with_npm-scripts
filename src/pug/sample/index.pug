@@ -1,0 +1,112 @@
+extends ../_base/_layout
+block append vars
+  - var path = '../';
+  - var title = 'sample';
+block title
+  title= 'sample site title' + ' | ' + title
+block append meta
+block append link
+  link(rel="stylesheet" href=`${path}assets/css/sample.css`)
+block body
+  #wrapper.ly_wrapper
+    include ../_parts/_header
+    main.ly_main
+      h2 Webフォント（.woff2 / .woff）の適用例
+        .set-notosans
+          p(style={"font-weight": "100"}) これはNoto Sans fontです
+          p(style={"font-weight": "300"}) これはNoto Sans fontです
+          p(style={"font-weight": "400"}) これはNoto Sans fontです
+          p(style={"font-weight": "500"}) これはNoto Sans fontです
+          p(style={"font-weight": "700"}) これはNoto Sans fontです
+          p(style={"font-weight": "900"}) これはNoto Sans fontです
+
+      h2 keen-sliderによるスライダーの展開
+      .keen-slider
+        .keen-slider__slide.number-slide1 1
+        .keen-slider__slide.number-slide2 2
+        .keen-slider__slide.number-slide3 3
+        .keen-slider__slide.number-slide4 4
+        .keen-slider__slide.number-slide5 5
+        .keen-slider__slide.number-slide6 6
+      
+      - for (var x = 0; x < 5; x++)
+        br
+
+      h2 PixiJS
+      .pixi
+
+      - for (var x = 0; x < 5; x++)
+        br
+
+      h2 D3.js
+      .d3area
+        #d3sample01
+      .d3area
+        #d3sample02
+      .d3area
+        #d3sample03
+        
+      h2 「XX以外の要素をクリックした時」の判定
+        p
+          button.js-target-button setCustomClick関数の対象ボタン
+
+      h2 スクロールストップ
+        p
+          button.js-stop-scroll-button スクロール禁止の切替ボタン
+
+      h2 Hero（画面縦幅100vh表示サンプル。iOSでも表示可能）
+      .bl_hero
+
+      h2 Flex box Samples
+        p よく利用するFlex boxの構築方法です
+        .sample_flex
+          p Flex box | 基本形
+          ul.flex-01
+            - for (var i = 0; i < 10; i++)
+              li.flex-01__el
+                p flex box #{i + 1}
+
+          p Flex box | 孫要素まで高さを揃える
+          ul.flex-02
+            - for (var i = 0; i < 10; i++)
+              li.flex-02__child
+                div.flex-02__grandchild
+                  - for (var j = 0; j < i; j++)
+                    p flex box #{j + 1}
+                    br
+
+          p Flex box | 要素の順番を変更する
+          ul.flex-03
+            - for (var i = 0; i < 3; i++)
+              li.flex-03__el
+                p flex box #{i + 1}
+
+      h2 Grid layout Sample
+        .sample_grid
+          .header ヘッダー
+          .nav ナビゲーション
+          .main メイン領域
+          .footer フッター
+
+      h2 Column
+        .sample_column
+          |いろはにほへと
+          |ちりぬるを
+          br
+          |わかよたれそ
+          |つねならむ
+          br
+          |うゐのおくやま
+          |けふこえて
+          br
+          |あさきゆめみし
+          |ゑひもせすん
+
+      p 交差オブザーバーAPIの対象エリア
+      ul(style="display: flex; flex-direction: column; flex-wrap: wrap;")
+        - for (var x = 0; x < 20; x++)
+          li.observerArea(style="display: block; background: pink; border-radius: 6px; height: 150px; margin: 10px 0 0 10px; width: 150px; transform: scale(0)")
+
+    include ../_parts/_footer
+block append script
+  script(src=`${path}assets/js/sample.js`)

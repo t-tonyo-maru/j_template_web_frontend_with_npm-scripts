@@ -1,0 +1,311 @@
+@charset "UTF-8";
+
+/* --------------------
+      foundation
+-------------------- */
+// variable
+@use './foundation/variable/color' as *;
+@use './foundation/variable/font' as *;
+@use './foundation/variable/size' as *;
+// animation
+@use './foundation/animation/rotate' as *;
+// function
+@use './foundation/function/half' as *;
+@use './foundation/function/rem' as *;
+@use './foundation/function/vw' as *;
+// mixin
+@use './foundation/mixin/media-query-with-tab' as *;
+// @use './foundation/mixin/media-query' as *;
+@use './foundation/mixin/browsers' as *;
+@use './foundation/mixin/set-font-face' as *;
+
+/* --------------------
+      base
+-------------------- */
+@use './base/reset' as *;
+@use './base/base' as *;
+
+/* --------------------
+      layout
+-------------------- */
+@use './layout/wrapper' as *;
+@use './layout/header' as *;
+@use './layout/main' as *;
+@use './layout/footer' as *;
+
+/* --------------------
+      module
+-------------------- */
+
+// element
+@use './module/element/btn' as *;
+@use './module/element/banner' as *;
+
+// block
+@use './module/block/card' as *;
+@use './module/block/media' as *;
+@use './module/block/pager' as *;
+@use './module/block/horizBtnList' as *;
+@use './module/block/headerCont' as *;
+@use './module/block/footerCont' as *;
+@use './module/block/fixBanner' as *;
+@use './module/block/hero' as *;
+
+/* --------------------
+      unique
+-------------------- */
+
+/* --------------------
+      program
+-------------------- */
+@use './program/fixBanner' as *;
+
+/* --------------------
+      helper
+-------------------- */
+@use './helper/clearfix' as *;
+@use './helper/margin' as *;
+@use './helper/padding' as *;
+
+// 以降、CSS/SCSSのサンプルコード
+/* --------------------
+      node_moduels
+      keen-slider の CSS を読み込み
+-------------------- */
+@use '../../node_modules/keen-slider/keen-slider' as *;
+
+/* --------------------
+      Flex box Samples
+      参考: https://coliss.com/articles/build-websites/operation/css/css3-flexbox-properties-by-scotch.html
+-------------------- */
+@use 'sass:math';
+.sample_flex {
+  // flex box の基本形
+  .flex-01 {
+    $columns: 3;
+    $columnWidth: 30;
+
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    &__el {
+      background-color: gray;
+      margin: 16px
+        math.percentage(
+          math.div(math.div((100 - $columnWidth * $columns), $columns - 1), 100)
+        )
+        0 0;
+      height: 60px;
+      width: math.percentage(math.div($columnWidth, 100));
+
+      &:nth-of-type(-n + #{$columns}) {
+        margin-top: 0;
+      }
+      &:nth-of-type(#{$columns}n) {
+        margin-right: 0;
+      }
+    }
+  } // .flex-01
+
+  /* --------------------
+    Flex box で高さを揃えるには、以下の設定が必要です
+    1. 親要素に display: flex を指定します
+    2. 子要素に display: flex と flex-direction: column を指定します
+    ex. 孫要素を下端に揃える場合は、孫要素に margin-top: auto を指定します
+  -------------------- */
+  .flex-02 {
+    $columns: 5;
+    $columnWidth: 18;
+
+    // 親要素
+    display: flex;
+    flex-wrap: wrap; // … 1.
+    width: 100%;
+
+    // 子要素
+    &__child {
+      background-color: rgb(200, 200, 200);
+      display: flex; // … 2.
+      flex-direction: column; // … 2.
+      margin: 16px
+        math.percentage(
+          math.div(math.div((100 - $columnWidth * $columns), $columns - 1), 100)
+        )
+        0 0;
+      width: math.percentage(math.div($columnWidth, 100));
+
+      &:nth-of-type(-n + #{$columns}) {
+        margin-top: 0;
+      }
+      &:nth-of-type(#{$columns}n) {
+        margin-right: 0;
+      }
+    } // &__child
+
+    // 孫要素
+    &__grandchild {
+      display: flex;
+      flex-direction: column;
+      // margin-top: auto; // … ex.
+    } // &__grandchild
+  } // .flex-02
+
+  /* --------------------
+    Flex box で要素の順番を変更する
+    1. order を指定した要素は、任意の順番に描画されます
+      ※ order は DOM の並びは変更しないため、nth-of-type で指定した値などはオーバーライドしなければならない
+    ex. flex-direction に reverse を含んだ値を指定すると、要素の並びを逆転できます
+  -------------------- */
+  .flex-03 {
+    $columns: 3;
+    $columnWidth: 30;
+
+    display: flex;
+    flex-wrap: wrap;
+    // flex-direction: row-reverse; // 右から左へ水平方向へ配置 // ex.
+    // flex-direction: column-reverse; // 下から上へ垂直方向へ配置 // ex.
+    width: 100%;
+    &__el {
+      background-color: gray;
+      margin: 16px
+        math.percentage(
+          math.div(math.div((100 - $columnWidth * $columns), $columns - 1), 100)
+        )
+        0 0;
+      height: 60px;
+      width: math.percentage(math.div($columnWidth, 100));
+
+      &:nth-of-type(-n + #{$columns}) {
+        margin-top: 0;
+      }
+      &:nth-of-type(#{$columns}n) {
+        margin-right: 0;
+      }
+
+      &:nth-of-type(1) {
+        order: 2; // … 1.
+      }
+      &:nth-of-type(2) {
+        order: 3; // … 1.
+        margin-right: 0; // … ※
+      }
+      &:nth-of-type(3) {
+        order: 1; // … 1.
+        margin-right: math.percentage(
+          math.div(math.div((100 - $columnWidth * $columns), $columns - 1), 100)
+        ); // … ※
+      }
+    }
+  } // .flex-03
+}
+
+/* --------------------
+      Grid Layout Sample
+      参考: https://developer.mozilla.org/ja/docs/Web/CSS/grid-template
+-------------------- */
+.sample_grid {
+  display: grid;
+  width: 100%;
+  height: 200px;
+  grid-template:
+    '... head head ...' 30px
+    '... nav  main ...' 1fr
+    '... nav  foot ...' 30px
+    / 16px 120px 1fr 16px;
+
+  .header {
+    background-color: lime;
+    grid-area: head;
+  }
+
+  .nav {
+    background-color: lightblue;
+    grid-area: nav;
+  }
+
+  .main {
+    background-color: yellow;
+    grid-area: main;
+  }
+
+  .footer {
+    background-color: red;
+    grid-area: foot;
+  }
+}
+
+/* --------------------
+      Column
+      参考: https://developer.mozilla.org/ja/docs/Web/CSS/columns
+-------------------- */
+.sample_column {
+  font-size: 16px;
+  columns: 3 auto;
+  column-gap: 16px;
+  column-rule: 1px solid #333;
+  width: 400px;
+}
+
+/* --------------------
+      font-face
+      Web font の適用方法のサンプル
+-------------------- */
+$fontFaces: (
+    name: 'Noto Sans JP',
+    path: '../fonts/notosansjp/NotoSansJP-Thin',
+    weight: 100,
+    style: normal,
+    exts: woff2 woff
+  ),
+  (
+    name: 'Noto Sans JP',
+    path: '../fonts/notosansjp/NotoSansJP-Light',
+    weight: 300,
+    style: normal,
+    exts: woff2 woff
+  ),
+  (
+    name: 'Noto Sans JP',
+    path: '../fonts/notosansjp/NotoSansJP-Regular',
+    weight: 400,
+    style: normal,
+    exts: woff2 woff
+  ),
+  (
+    name: 'Noto Sans JP',
+    path: '../fonts/notosansjp/NotoSansJP-Medium',
+    weight: 500,
+    style: normal,
+    exts: woff2 woff
+  ),
+  (
+    name: 'Noto Sans JP',
+    path: '../fonts/notosansjp/NotoSansJP-Bold',
+    weight: 700,
+    style: normal,
+    exts: woff2 woff
+  ),
+  (
+    name: 'Noto Sans JP',
+    path: '../fonts/notosansjp/NotoSansJP-Black',
+    weight: 900,
+    style: normal,
+    exts: woff2 woff
+  );
+
+@each $fontFace in $fontFaces {
+  @include set-font-face(
+    map-get($fontFace, 'name'),
+    map-get($fontFace, 'path'),
+    map-get($fontFace, 'weight'),
+    map-get($fontFace, 'style'),
+    map-get($fontFace, 'exts')
+  );
+}
+
+.set-notosans {
+  font-family: $fontNotoSansJp;
+}
+.set-min {
+  font-family: serif;
+}
