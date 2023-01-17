@@ -2,10 +2,6 @@
 @use '../foundation/variable/font' as *;
 @use '../foundation/mixin/phone-link' as *;
 
-html {
-  font-size: 62.5%;
-}
-
 body {
   @include set-disable-phone-link-in-sp();
 

@@ -1,6 +1,7 @@
 @use '../../foundation/variable/color' as *;
 @use '../../foundation/variable/size' as *;
 @use '../../foundation/mixin/media-query-with-tab' as *;
+@use '../../foundation/function/rem' as *;
 
 .bl_card {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
@@ -26,7 +27,7 @@
   }
 
   &_ttl {
-    font-size: 1.125rem;
+    font-size: rem(16);
     font-weight: bold;
     margin-bottom: 0;
   }
@@ -53,7 +54,7 @@
 
     &_txt {
       color: #fff;
-      font-size: 0.875rem;
+      font-size: rem(14);
       font-weight: bold;
       left: 0.3125rem;
       position: absolute;

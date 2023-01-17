@@ -1,3 +1,5 @@
+@use '../../foundation/function/rem' as *;
+
 .bl_headerCont {
   display: flex;
   flex-direction: column;
@@ -5,7 +7,7 @@
 
   &_logo {
     display: block;
-    font-size: 1rem;
+    font-size: rem(16);
     max-width: 180px;
     margin: 0;
 
