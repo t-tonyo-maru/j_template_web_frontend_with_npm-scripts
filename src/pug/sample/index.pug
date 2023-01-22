@@ -20,14 +20,30 @@ block body
           p(style={"font-weight": "700"}) これはNoto Sans fontです
           p(style={"font-weight": "900"}) これはNoto Sans fontです
 
+      - for (var x = 0; x < 5; x++)
+        br
+
+      h2 マウスストーカー
+      p 本ページではマウスストーカーを実装しています
+
+      - for (var x = 0; x < 5; x++)
+        br
+
       h2 keen-sliderによるスライダーの展開
+      style(type="text/css").
+        .keen-slider__slide:nth-of-type(odd)  {
+          background-color: skyblue;
+        }
+        .keen-slider__slide:nth-of-type(even)  {
+          background-color: pink;
+        }
       .keen-slider
-        .keen-slider__slide.number-slide1 1
-        .keen-slider__slide.number-slide2 2
-        .keen-slider__slide.number-slide3 3
-        .keen-slider__slide.number-slide4 4
-        .keen-slider__slide.number-slide5 5
-        .keen-slider__slide.number-slide6 6
+        .keen-slider__slide 1
+        .keen-slider__slide 2
+        .keen-slider__slide 3
+        .keen-slider__slide 4
+        .keen-slider__slide 5
+        .keen-slider__slide 6
       
       - for (var x = 0; x < 5; x++)
         br
@@ -102,10 +118,66 @@ block body
           |あさきゆめみし
           |ゑひもせすん
 
-      p 交差オブザーバーAPIの対象エリア
-      ul(style="display: flex; flex-direction: column; flex-wrap: wrap;")
+      p gsap / gsap.ScrollTrigger
+      style(type="text/css").
+        .scrollTriggerTarget_wrap {
+          display: flex;
+          flex-direction: column;
+          flex-wrap: wrap;
+        }
+        .scrollTriggerTarget {
+          display: block;
+          background: pink;
+          border-radius: 6px;
+          height: 150px;
+          margin: 10px 0 0 10px;
+          width: 150px;
+          transform: scale(0);
+        }
+      ul.scrollTriggerTarget_wrap
         - for (var x = 0; x < 20; x++)
-          li.observerArea(style="display: block; background: pink; border-radius: 6px; height: 150px; margin: 10px 0 0 10px; width: 150px; transform: scale(0)")
+          li.scrollTriggerTarget
+      
+      p gsap / gsap.ScrollTriggerを利用した横スクロール演出
+      style(type="text/css").
+        .h_scroll_area { overflow: hidden; }
+        .h_area_wrap { display: flex; }
+        .item {
+          height: 100vh;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 50px;
+          font-weight: bold;
+          color: #fff;
+        }
+        .item--01 { background: #e94d15; }
+        .item--02 { background: #f18d1d; }
+        .item--03 { background: #f8b633; }
+        .item--04 { background: #8cc561; }
+        .item--05 { background: #56aa59; }
+        .item--06 { background: #3d6b35; }
+      .h_scroll_area
+        .item.item--v.item--01
+          span 1
+        .item.item--v.item--02
+          span 2
+        .item.item--v.item--03
+          span 3
+        .h_area.js_h_area
+          .h_area_wrap.js_h_area_wrap
+            .item.item--h.item--04.js_h_item
+              span 4
+            .item.item--h.item--05.js_h_item
+              span 5
+            .item.item--h.item--06.js_h_item
+              span 6
+        .item.item--v.item--01
+          span 7
+        .item.item--v.item--02
+          span 8
+        .item.item--v.item--03
+          span 9
 
     include ../_parts/_footer
 block append script

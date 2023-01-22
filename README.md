@@ -497,6 +497,9 @@ jest の型定義も導入していますので、TypeScript でテストファ�
   - サンプル: `/src/ts/modules/setCustomClick/setCustomClick.ts`
 - スクロール禁止
   - サンプル: `/src/ts/samples/setStopScrollHandler/setStopScrollHandler.ts`
+- マウスストーカー
+  - サンプル: `/src/ts/samples/setMouseStalker/setMouseStalker.ts`
+  - サンプル: `/src/scss/program/_mouseStalker.scss`
 
 サンプルコードは、主に下記のファイルをエントリーポイントとして実装しています
 

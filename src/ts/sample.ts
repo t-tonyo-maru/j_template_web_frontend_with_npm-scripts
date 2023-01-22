@@ -1,10 +1,10 @@
 import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { setWindowResizeEvent } from '@/samples/setResizeEvent/setResizeEvent'
 import { createKeenSlider } from '@/samples/createKeenSlider/createKeenSlider'
 import { createPixi } from '@/samples/createPixi/createPixi'
 import { createFetch } from '@/samples/createFetch/createFetch'
 import { createAxios } from '@/samples/createAxios/createAxios'
-import { createIntersectionObserver } from '@/samples/createIntersectionObserver/createIntersectionObserver'
 import { setRoutine } from '@/samples/setRoutine/setRoutine'
 import { setCustomClick } from '@/samples/setCustomClick/setCustomClick'
 import {
@@ -18,6 +18,8 @@ import {
   sampleObjectSchema
 } from '@/samples/zodValidation/zodValidation'
 import { setStopScrollHandler } from '@/samples/setStopScrollHandler/setStopScrollHandler'
+import { setMouseStalker } from '@/samples/setMouseStalker/setMouseStalker'
+import { getIsTouchableDevice } from '@/samples/getIsTouchableDevice/getIsTouchableDevice'
 
 window.onload = () => {
   // 開発と本番のどちらの環境かを取得
@@ -40,6 +42,11 @@ window.onload = () => {
     },
     offset: 200
   })
+
+  // Sample: マウスストーカー
+  if(!getIsTouchableDevice(window)) {
+    setMouseStalker()
+  }
 
   // Sample: keen-slider
   const keenSlider = createKeenSlider({
@@ -141,32 +148,43 @@ window.onload = () => {
       console.log(err)
     })
 
-  // Sample: Intersection Observer
-  // よりカスタマイズしたい場合は、gsapのScrollTriggerを利用した方が良いです。
-  const observer = createIntersectionObserver({
-    options: {
-      root: null, // nullを指定すると、ルート要素はビューポートとなる
-      rootMargin: '-20px 0px', // ビューポート最下部から上部へ20px地点を交差判定域とする
-      threshold: 0
-    },
-    callback: (entries) => {
-      entries.forEach((entry, index) => {
-        if (entry.isIntersecting) {
-          // Sample: gsap
-          // https://greensock.com/gsap/
-          gsap.to(entry.target, {
-            scale: 1,
-            duration: 0.4, // 0.4秒間かけて行う
-            ease: 'power2.inOut', // アニメーションのイージングを指定
-            delay: 0 + index * 0.5 // 要素の数分だけdelayを適用
-          })
-        }
-      })
-    }
+  // Sample: gsap & gsap.ScrollTrigger
+  // プラグインを定義
+  gsap.registerPlugin(ScrollTrigger)
+  // スクロール対象にアニメーションを指定
+  gsap.utils.toArray('.scrollTriggerTarget').forEach((_el) => {
+    const el = _el as HTMLElement
+    gsap.to(el as HTMLElement, {
+      scale: 1,
+      duration: 0.4, // 0.4秒間かけて行う
+      ease: 'power2.inOut', // アニメーションのイージングを指定
+      stagger: 0.08,
+      scrollTrigger: {
+        trigger: el
+      }
+    })
   })
-  // 観察対象をセット
-  document.querySelectorAll('.observerArea').forEach((el) => {
-    observer.observe(el)
+
+  // Sample: gsap / gsap.ScrollTriggerを利用した横スクロール演出
+  // 各要素を取得
+  const area = document.querySelector<HTMLElement>('.js_h_area')
+  const wrap = document.querySelector<HTMLElement>('.js_h_area_wrap')
+  const hItems = document.querySelectorAll<HTMLElement>('.js_h_item')
+  const num = hItems.length
+  // 横幅を指定
+  gsap.set(wrap, { width: `${num * 100}%` })
+  gsap.set(hItems, { width: `${100 / num}%` })
+  // スクロールアニメーションを適用
+  gsap.to(hItems, {
+    xPercent: -100 * (num - 1), // x方向へ移動させる
+    ease: 'none',
+    scrollTrigger: {
+      trigger: area, // トリガー先
+      start: 'top top', // 開始位置
+      end: '+=1000', // 終了位置
+      pin: true, // ピン留め有効
+      scrub: true // スクロール量に応じて動かす
+    }
   })
 
   // Sample: ルーチン
