@@ -44,7 +44,7 @@ window.onload = () => {
   })
 
   // Sample: マウスストーカー
-  if(!getIsTouchableDevice(window)) {
+  if (!getIsTouchableDevice(window)) {
     setMouseStalker()
   }
 
